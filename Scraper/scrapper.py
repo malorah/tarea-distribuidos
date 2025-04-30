@@ -121,14 +121,17 @@ def scrap_waze(N:int,intentos:bool,datos_unicos:bool = True):
     return retorno 
 
 if __name__ == "__main__":
+    total = 0
+    maximo = 10000
     N = 10
-    intentos = True
-    datos_unicos = False
+    intentos = False
+    datos_unicos = True
     client = pymongo.MongoClient()
     client.server_info()
     db = client.yourdbname
     collection = db["waze"]
-    while True:
+    while total<maximo:
         data=scrap_waze(N,intentos,datos_unicos)
+        total+=len(data)
         collection.insert_many(data)
 
