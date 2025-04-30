@@ -128,7 +128,7 @@ if __name__ == "__main__":
     datos_unicos = True
     client = pymongo.MongoClient()
     client.server_info()
-    db = client.yourdbname
+    db = client.db
     collection = db["waze"]
     while total<maximo:
         data=scrap_waze(N,intentos,datos_unicos)
