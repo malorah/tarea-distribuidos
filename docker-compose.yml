@@ -4,15 +4,14 @@ networks:
     driver: bridge
 services:
   scraper:
-    image:  scraper
+    image: scraper
     build:
       context: ./Scraper
       dockerfile: Dockerfile
     ports:
     - 3000:3000
   Almacenamiento:
-    image: mongo:latest
-    container_name: mongodb
+    image: monguito
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: user
