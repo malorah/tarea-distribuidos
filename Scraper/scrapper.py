@@ -1,5 +1,6 @@
 import time
 import requests
+import pymongo
 
 keys_to_remove = [
     "comments",
@@ -118,3 +119,16 @@ def scrap_waze(N:int,intentos:bool,datos_unicos:bool = True):
             time.sleep(2)
 
     return retorno 
+
+if __name__ == "__main__":
+    N = 10
+    intentos = True
+    datos_unicos = False
+    client = pymongo.MongoClient()
+    client.server_info()
+    db = client.yourdbname
+    collection = db["waze"]
+    while True:
+        data=scrap_waze(N,intentos,datos_unicos)
+        collection.insert_many(data)
+

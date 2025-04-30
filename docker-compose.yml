@@ -1,0 +1,26 @@
+version: '3'
+networks:
+  app-network:
+    driver: bridge
+services:
+  scraper:
+    image:  scraper
+    build:
+      context: ./Scraper
+      dockerfile: Dockerfile
+    ports:
+    - 3000:3000
+  Almacenamiento:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: user
+      MONGO_INITDB_DATABASE: db
+    build: 
+      context: ./Almacenamiento
+      dockerfile: Dockerfile
+    ports:
+      - 27017:27017
+    volumes:
+     - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro

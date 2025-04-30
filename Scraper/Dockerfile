@@ -1,12 +1,18 @@
-FROM python:3.13-slim
+FROM python:3
 
-WORKDIR /app
+ENV MONGO_DB_USERNAME=admin
+ENV MONGO_DB_PWD=password
 
-COPY . .
+RUN mkdir -p /home/project
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install pymongo
+RUN pip3 install pymongo
+RUN pip3 install requests
 
-CMD [ "python", "Main.py" ]
+COPY . /home/project
+
+
+CMD ["python","/home/project/scrapper.py"]
 
 
 

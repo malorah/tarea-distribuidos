@@ -1,12 +1,9 @@
-FROM python:3.13-slim
+FROM mongo
 
-WORKDIR /app
+ENV MONGO_DB_USERNAME=admin
+ENV MONGO_DB_PWD=password
+ENV MONGO_DB_DB = db
 
-COPY . .
-
-RUN pip install --no-cache-dir -r requeriments.txt
-
-CMD [ "python", "Main.py" ]
 
 
 
