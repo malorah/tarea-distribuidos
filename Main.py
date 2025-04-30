@@ -1,5 +1,5 @@
-from scrapper import scrap_waze
-from almacenamiento import guardado
+from Scraper.scrapper import scrap_waze
+from Almacenamiento.almacenamiento import guardado
 
 N = 200 #Al menos 10000 eventos almacenados pide la tarea
 
