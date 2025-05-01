@@ -4,6 +4,7 @@ import random
 from datetime import datetime
 import numpy as np
 from Cache.cache import TrafficCache
+from typing import Dict, Any, Optional, List
 
 class TrafficGenerator:
     def __init__(self):

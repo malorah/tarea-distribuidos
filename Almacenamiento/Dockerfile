@@ -1,9 +1,8 @@
-FROM mongo
+FROM mongo:6.0
 
 ENV MONGO_DB_USERNAME=admin
 ENV MONGO_DB_PWD=password
 ENV MONGO_DB_DB = db
-
 
 
 

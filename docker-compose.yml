@@ -38,8 +38,9 @@ services:
   # Generador de Tráfico
   traffic-generator:
     build:
-      context: ./Generator_trafico
+      context: ./Generador_trafico
       dockerfile: Dockerfile
+    container_name: generador_de_trafico
     environment:
       - REDIS_HOST=redis
       - MONGO_URI=mongodb://admin:user@almacenamiento:27017/db
@@ -55,6 +56,9 @@ services:
   almacenamiento:
     image: mongo:6.0
     container_name: mongo-db
+    build:
+      context: ./Almacenamiento
+      dockerfile: Dockerfile
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
       MONGO_INITDB_ROOT_PASSWORD: user
@@ -66,7 +70,14 @@ services:
       - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     networks:
       - app-network
-
+    # Servicio de scrapping
+  scraping:
+    build:
+      context: ./Scraper
+      dockerfile: Dockerfile
+    container_name: scrapper
+    depends_on:
+      - almacenamiento
 volumes:
   redis_data:
   mongo_data:

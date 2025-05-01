@@ -1,12 +1,21 @@
 FROM python:3.9-slim
 
-WORKDIR /app
-
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install numpy
+RUN pip install pandas
+RUN pip install redis 
+RUN pip install pymongo
+#RUN pip install --no-cache-dir -r requirements.txt #Dio Error por alguna razon
+# El error fue porque datetime y random no se pueden instalar (ya vienen con python)
+#Tambien faltaba redis y pymongo
+COPY trafico.py .
 
-COPY . .
+#En trafico.py se utiliza el codigo de Cache/cache.py esto no deberia ser 
+# porque se harcodea el enlace con cache sin usar el contenedor de cache.
+#Este es un arreglo temporal (copiar todo el archivo del otro contenedor)
+RUN mkdir Cache
+COPY cache.py ./Cache 
 
 RUN mkdir -p /shared_data && chmod 777 /shared_data
 
-CMD ["python", "traffico.py"]
+CMD ["python", "./trafico.py"]

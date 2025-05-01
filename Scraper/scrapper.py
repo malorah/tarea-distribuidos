@@ -126,12 +126,15 @@ if __name__ == "__main__":
     N = 10
     intentos = False
     datos_unicos = True
+    print("Iniciando conexion a almacenamiento")
     client = pymongo.MongoClient()
     client.server_info()
     db = client.db
     collection = db["waze"]
+    print("Conexion exitosa.")
     while total<maximo:
         data=scrap_waze(N,intentos,datos_unicos)
         total+=len(data)
+        print("Enviando",len(data),"entradas a la base de datos.")
         collection.insert_many(data)
 
