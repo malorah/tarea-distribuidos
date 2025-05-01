@@ -29,28 +29,39 @@ CACHE_TTL=7200
 MAX_CACHE_SIZE=5000
 
 1. Scrapper
+```bash
 docker-compose up -d --build scraper
-
+```
 2. Generador de trafico
+```bash
 docker-compose up -d --build traffic-generator
+```
 
 3. Sistema de cache
+```bash
 docker-compose up -d redis cache-service
+```
 
 4.Almacenamiento con mongoDB
+```bash
 docker-compose up -d almacenamiento
-
+```
 📊 Monitorización
 # Ver logs en tiempo real
+```bash
 docker-compose logs -f
-
+```
 # Acceder a Redis CLI
+```bash
 docker exec -it redis_cache redis-cli
+```
 
 # Conectar a MongoDB
+```bash
 docker exec -it mongo_almacenamiento mongosh -u admin -p user
-
+```
 #Para finalizar los servicios docker
+```bash
 docker-compose down
-
+```
 
