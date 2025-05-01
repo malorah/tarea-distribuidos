@@ -2,6 +2,7 @@ import time
 import requests
 import pymongo
 
+#Cosas a borrar
 keys_to_remove = [
     "comments",
     "reportDescription",
@@ -50,16 +51,19 @@ def scrape_traffic_data(url):
         print(f"Error al realizar la solicitud a {url}: {e}")
         return {}
 
-def update_all_json(data,key,value):
+def update_all_json(data,key,value): 
+    #Agrega un elemento y un valor a un diccionario
     for elem in data:
         elem.update({key:value})
 
 def unicos(datos1,datos2):
+    #Esta funcion filtra los datos obtenidos en base a su id para solo obtener datos unicos
     indice = set({}) #Set para buscar mas rapido (es la idea)
     for dato in datos1:
         indice.add(dato["id"])
 
     for dato in datos2:
+        #Si no se encuentra el indice en los datos anteriores, agrega la entrada
         if(dato["id"] not in indice):
             indice.add(dato["id"])
             datos1.append(dato)
@@ -76,7 +80,7 @@ def scrap_waze(N:int,intentos:bool,datos_unicos:bool = True):
     
     retorno = {}
     print(f"Scrapeando datos de la URL: {url}")
-    c = 0
+    c = 0 # c es numero de intento exitoso
     print("Se terminara de scrapear cuando",end=" ")
     if(intentos):print("se realicen",N,"intentos exitosos de scraping.")
     else:print("se obtengan",N,"entradas de datos diferentes.")
@@ -95,9 +99,11 @@ def scrap_waze(N:int,intentos:bool,datos_unicos:bool = True):
 
             #print("Hay",len(alerts_data),"alertas y",len(jams_data),"congestiones")
             
+            #Se agrega el campo isAlert para identificar si se trata de una alerta o no (un jam)
             update_all_json(alerts_data,"isAlert",True)
             update_all_json(jams_data,"isAlert",False)
             
+            #Se filta solo por datos cuyo id sea unico (no hay duplicados)
             if(datos_unicos):
                 if(len(retorno) == 0): retorno = alerts_data
                 else:retorno = unicos(retorno,alerts_data)
@@ -121,11 +127,11 @@ def scrap_waze(N:int,intentos:bool,datos_unicos:bool = True):
     return retorno 
 
 if __name__ == "__main__":
-    total = 0
-    maximo = 10000
-    N = 10
-    intentos = False
-    datos_unicos = True
+    total = 0 #Datos totales insertados en la db
+    maximo = 10000 #Datos maximos a insertar en la db
+    N = 10 #Tanda de datos a insertar simultaneamente o intentos a realizar
+    intentos = False #Si true, intentos a realizar, si no, cantidad de datos a insertar
+    datos_unicos = True # si true solo insertar datos con ids diferentes
     print("Iniciando conexion a almacenamiento")
     client = pymongo.MongoClient()
     client.server_info()

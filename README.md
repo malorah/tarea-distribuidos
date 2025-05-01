@@ -65,3 +65,8 @@ docker exec -it mongo_almacenamiento mongosh -u admin -p user
 docker-compose down
 ```
 
+# Extra
+#Opcionalmente se pueden crear y levantar todos los servicios al mismo tiempo con el comando
+```bash
+docker-compose up -d --build
+```
